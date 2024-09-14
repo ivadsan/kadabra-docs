@@ -1,8 +1,9 @@
 import React from "react";
+import "./styles/index.scss";
 
 const App = () => {
   return (
-    <div>
+    <div className="main">
       <h1>Kadabra</h1>
     </div>
   );
