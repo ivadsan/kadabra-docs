@@ -1,4 +1,5 @@
 const { input, select, Separator, rawlist } = require("@inquirer/prompts");
+const makePrettyURL = require("./makePrettyURL");
 
 const createCategory = (value) => {
   if (!value) {
@@ -10,7 +11,7 @@ const createCategory = (value) => {
     return false;
   }
 
-  return value.toLowerCase().split(" ").join("-");
+  return makePrettyURL(value);
 };
 
 const initCli = async () => {
@@ -33,9 +34,9 @@ const initCli = async () => {
         const category = await input({
           message: "Enter the name of the category",
         });
-        createCategory(category)
-          ? console.log(`Category '${category}' created!`)
-          : null;
+        const response = createCategory(category);
+        response ? console.log(`Category '${category}' created!`) : null;
+        console.log(response);
         break;
 
       case "createDoc":

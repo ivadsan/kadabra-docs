@@ -35,3 +35,5 @@ const originalString = "¡Hola, Mundo! Año 2024 está aquí.";
 const prettyURL = makePrettyURL(originalString);
 
 console.log(prettyURL); // "hola-mundo-ano-2024-esta-aqui"
+
+module.exports = makePrettyURL;
