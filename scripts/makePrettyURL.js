@@ -1,5 +1,4 @@
 function makePrettyURL(str) {
-  // Reemplazar tildes y ñ
   const accentsMap = {
     á: "a",
     é: "e",
@@ -21,19 +20,13 @@ function makePrettyURL(str) {
 
   const normalizedStr = str.replace(accentsRegex, (char) => accentsMap[char]);
 
-  // Eliminar caracteres especiales y reemplazar espacios por guiones
   const prettyStr = normalizedStr
-    .toLowerCase() // Convertir a minúsculas
-    .replace(/[^a-z0-9\s-]/g, "") // Eliminar caracteres especiales
-    .trim() // Eliminar espacios al principio y al final
-    .replace(/\s+/g, "-"); // Reemplazar espacios por guiones
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
 
   return prettyStr;
 }
-
-const originalString = "¡Hola, Mundo! Año 2024 está aquí.";
-const prettyURL = makePrettyURL(originalString);
-
-console.log(prettyURL); // "hola-mundo-ano-2024-esta-aqui"
 
 module.exports = makePrettyURL;

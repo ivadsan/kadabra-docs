@@ -1,19 +1,6 @@
 const { input, select, Separator, rawlist } = require("@inquirer/prompts");
-const makePrettyURL = require("./makePrettyURL");
-
-const createCategory = (value) => {
-  if (!value) {
-    console.log("The field cannot be empty");
-    return false;
-  }
-  if (value.length > 100) {
-    console.log("Category must be less than 100 characters");
-    return false;
-  }
-
-  return makePrettyURL(value);
-};
-
+const createCategory = require("./createCategory");
+const listCategories = require("./listCategories");
 const initCli = async () => {
   let exit = false;
 
@@ -34,9 +21,9 @@ const initCli = async () => {
         const category = await input({
           message: "Enter the name of the category",
         });
+
         const response = createCategory(category);
         response ? console.log(`Category '${category}' created!`) : null;
-        console.log(response);
         break;
 
       case "createDoc":
@@ -48,6 +35,7 @@ const initCli = async () => {
 
       case "explore":
         console.log("Exploring categories...");
+        listCategories();
         break;
 
       case "help":
