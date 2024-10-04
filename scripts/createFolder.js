@@ -15,9 +15,8 @@ function createFolder(path) {
     try {
       fs.mkdirSync(path, { recursive: true });
       isFolderCreated = true;
-      console.log("Directory created successfully!");
     } catch (err) {
-      return console.error(err);
+      return console.error(`\n\u274C ${err}\n`);
     }
   }
   return isFolderCreated;

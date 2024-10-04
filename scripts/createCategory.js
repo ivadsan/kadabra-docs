@@ -1,6 +1,7 @@
 const { PATH } = require("../constants/app");
 const createFolder = require("./createFolder");
 const makePrettyURL = require("./makePrettyURL");
+const createFile = require("./createFile");
 
 const createCategory = (value) => {
   if (!value) {
@@ -12,7 +13,13 @@ const createCategory = (value) => {
     return false;
   }
   const prettyURL = makePrettyURL(value);
-  return createFolder(`${PATH.DOCS}/${prettyURL}`);
+  const folderPath = `${PATH.DOCS}/${prettyURL}`;
+
+  if (createFolder(folderPath)) {
+    return createFile(folderPath, "README.md", `# ${value}`);
+  }
+
+  return false;
 };
 
 module.exports = createCategory;

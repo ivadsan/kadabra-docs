@@ -23,7 +23,9 @@ const initCli = async () => {
         });
 
         const response = createCategory(category);
-        response ? console.log(`Category '${category}' created!`) : null;
+        response
+          ? console.log(`\n\u2705 Category '${category}' created!\n`)
+          : null;
         break;
 
       case "createDoc":
