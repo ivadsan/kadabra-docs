@@ -5,11 +5,11 @@ const createFile = require("./createFile");
 
 const createCategory = (value) => {
   if (!value) {
-    console.log("The field cannot be empty");
+    console.log(`\n\u{1F7E1} The field cannot be empty\n`);
     return false;
   }
   if (value.length > 100) {
-    console.log("Category must be less than 100 characters");
+    console.log(`\n\u{1F7E1} Category must be less than 100 characters\n`);
     return false;
   }
   const prettyURL = makePrettyURL(value);
