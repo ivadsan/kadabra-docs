@@ -1,6 +1,6 @@
 const { input, select, Separator, rawlist } = require("@inquirer/prompts");
 const createCategory = require("./createCategory");
-const listCategories = require("./listCategories");
+const { listCategories } = require("./listCategories");
 const initCli = async () => {
   let exit = false;
 
@@ -37,7 +37,7 @@ const initCli = async () => {
 
       case "explore":
         console.log("Exploring categories...");
-        listCategories();
+        console.log(listCategories());
         break;
 
       case "help":
