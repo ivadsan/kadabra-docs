@@ -36,8 +36,8 @@ const initCli = async () => {
         break;
 
       case "explore":
-        console.log("Exploring categories...");
-        console.log(listCategories());
+        console.log("Exploring categories...\n");
+        await listCategories();
         break;
 
       case "help":
