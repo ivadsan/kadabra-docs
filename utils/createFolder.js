@@ -1,5 +1,5 @@
-const fs = require("fs");
-const validateFolder = require("./validateFolder");
+import fs from "fs";
+import { validateFolder } from "./validateFolder.js";
 
 /**
  * Creates a folder at the specified path if it does not already exist.
@@ -9,17 +9,15 @@ const validateFolder = require("./validateFolder");
  *                      or false if the folder already exists or if an error occurred.
  */
 
-function createFolder(path) {
+export const createFolder = (path) => {
   let isFolderCreated = false;
   if (!validateFolder(path)) {
     try {
       fs.mkdirSync(path, { recursive: true });
       isFolderCreated = true;
     } catch (err) {
-      return console.error(`\n\u274C ${err}\n`);
+      console.error(`\n\u274C ${err}\n`);
     }
   }
   return isFolderCreated;
-}
-
-module.exports = createFolder;
+};

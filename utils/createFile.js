@@ -1,7 +1,7 @@
-const fs = require("fs");
-const validateFolder = require("./validateFolder");
+import fs from "fs";
+import { validateFolder } from "../utils/validateFolder.js";
 
-function createFile(folderPath, fileName, fileContent) {
+export function createFile(folderPath, fileName, fileContent) {
   let isFileCreated = false;
   if (validateFolder(folderPath)) {
     try {
@@ -14,5 +14,3 @@ function createFile(folderPath, fileName, fileContent) {
   }
   return isFileCreated;
 }
-
-module.exports = createFile;

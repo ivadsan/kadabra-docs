@@ -1,4 +1,4 @@
-function makePrettyURL(str) {
+export function makePrettyURL(str) {
   const accentsMap = {
     á: "a",
     é: "e",
@@ -28,5 +28,3 @@ function makePrettyURL(str) {
 
   return prettyStr;
 }
-
-module.exports = makePrettyURL;

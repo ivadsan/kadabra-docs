@@ -1,7 +1,7 @@
-const fs = require("fs");
-const { PATH } = require("../constants/app");
+import fs from "fs";
+import { PATH } from "../constants/app.js";
 
-function generateTOC() {
+export const generateTOC = () => {
   console.time();
   console.log("Start reading files...");
 
@@ -14,6 +14,4 @@ function generateTOC() {
 
   console.log("End reading files...");
   console.timeEnd();
-}
-
-module.exports = generateTOC;
+};

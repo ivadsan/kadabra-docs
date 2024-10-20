@@ -7,7 +7,7 @@ export default {
   input: "src/App.js",
   output: {
     file: "dist/bundle.js",
-    format: "cjs",
+    format: "esm",
   },
   plugins: [
     resolve(),

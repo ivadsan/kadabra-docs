@@ -1,7 +1,7 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-function copyFile(srcFile, destFolder) {
+export const copyFile = (srcFile, destFolder) => {
   const destFile = path.join(destFolder, path.basename(srcFile));
   try {
     fs.copyFileSync(srcFile, destFile);
@@ -10,6 +10,4 @@ function copyFile(srcFile, destFolder) {
     console.error("Error copying file:", err);
     return;
   }
-}
-
-module.exports = copyFile;
+};

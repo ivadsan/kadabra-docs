@@ -1,10 +1,59 @@
-const fs = require("fs");
-const { PATH, FILE } = require("../constants/app");
-const path = require("path");
-const validateFolder = require("./validateFolder");
-const { confirm } = require("@inquirer/prompts");
+import fs from "fs";
+import path from "path";
+import { confirm } from "@inquirer/prompts";
 
-function getCategories() {
+import { PATH, FILE } from "../constants/app.js";
+import { CONFIG } from "../constants/config.js";
+import { validateFolder } from "../utils/validateFolder.js";
+import { createFolder } from "../utils/createFolder.js";
+import { makePrettyURL } from "../utils/makePrettyURL.js";
+import { createFile } from "../utils/createFile.js";
+
+export const createCategory = (value) => {
+  if (!value) {
+    console.log(`\n\u{1F7E1} The field cannot be empty\n`);
+    return false;
+  }
+  if (value.length > CONFIG.MAX_FILENAME_LENGTH) {
+    console.log(
+      `\n\u{1F7E1} Category must be less than ${CONFIG.MAX_FILENAME_LENGTH} characters\n`
+    );
+    return false;
+  }
+  const prettyURL = makePrettyURL(value);
+  const folderPathDocs = `${PATH.DOCS}/${prettyURL}`;
+  const folderPathAssets = `${PATH.ASSETS}/${prettyURL}`;
+
+  if (!createFolder(folderPathDocs)) {
+    console.log(
+      `\n\u{1F7E1} Failed to create the folder for docs: ${folderPathDocs}\n`
+    );
+    return false;
+  }
+
+  if (!createFolder(folderPathAssets)) {
+    console.log(
+      `\n\u{1F7E1} Failed to create the folder for assets: ${folderPathAssets}\n`
+    );
+    return false;
+  }
+
+  const fileCreated = createFile(
+    folderPathDocs,
+    FILE.DEFAULT_FILENAME,
+    `# ${value}`
+  );
+
+  if (!fileCreated) {
+    console.log("\n\u{1F7E1} Failed to create the category file\n");
+    return false;
+  }
+
+  console.log(`\n\u2705 Category '${value}' created!\n`);
+  return true;
+};
+
+export const getCategories = () => {
   try {
     const categories = fs.readdirSync(PATH.DOCS);
     if (!categories.length) return [];
@@ -39,9 +88,9 @@ function getCategories() {
     console.error(`\n\u274C ${err}\n`);
     return [];
   }
-}
+};
 
-async function paginateCategories(categories, pageSize = 5) {
+const paginateCategories = async (categories, pageSize = CONFIG.PAGE_SIZE) => {
   let currentPage = 0;
 
   const paginate = async () => {
@@ -77,9 +126,9 @@ async function paginateCategories(categories, pageSize = 5) {
   };
 
   await paginate();
-}
+};
 
-async function listCategories() {
+export const listCategories = async () => {
   const categories = getCategories();
   if (!categories.length) {
     console.log(
@@ -88,6 +137,4 @@ async function listCategories() {
   } else {
     await paginateCategories(categories);
   }
-}
-
-module.exports = { listCategories };
+};
