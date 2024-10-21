@@ -1,5 +1,6 @@
 import { input, rawlist } from "@inquirer/prompts";
 import { createCategory, listCategories } from "./category.js";
+import { createDocument } from "./document.js";
 
 export const initCli = async () => {
   let exit = false;
@@ -18,10 +19,7 @@ export const initCli = async () => {
 
     switch (answer) {
       case "createCategory":
-        const category = await input({
-          message: "Enter the name of the category",
-        });
-        createCategory(category);
+        await createCategory();
         break;
 
       case "explore":
@@ -29,21 +27,18 @@ export const initCli = async () => {
         await listCategories();
         break;
 
-      // case "createDoc":
-      //   const documentName = await input({
-      //     message: "Enter the name of the document",
-      //   });
-      //   console.log(`Document '${documentName}' created!`);
-      //   break;
+      case "createDoc":
+        await createDocument();
+        break;
 
       // case "help":
       //   console.log("Showing help...");
       //   break;
 
-      // case "exit":
-      //   exit = true;
-      //   console.log("Exiting the CLI. Goodbye!");
-      //   break;
+      case "exit":
+        exit = true;
+        console.log("Exiting the CLI. Goodbye!");
+        break;
 
       default:
         console.log("Invalid option. Try again.");

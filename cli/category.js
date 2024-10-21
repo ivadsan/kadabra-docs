@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { confirm } from "@inquirer/prompts";
+import { confirm, input } from "@inquirer/prompts";
 
 import { PATH, FILE } from "../constants/app.js";
 import { CONFIG } from "../constants/config.js";
@@ -8,21 +8,20 @@ import { validateFolder } from "../utils/validateFolder.js";
 import { createFolder } from "../utils/createFolder.js";
 import { makePrettyURL } from "../utils/makePrettyURL.js";
 import { createFile } from "../utils/createFile.js";
+import { validateInput } from "../utils/validateInput.js";
 
-export const createCategory = (value) => {
-  if (!value) {
-    console.log(`\n\u{1F7E1} The field cannot be empty\n`);
-    return false;
-  }
-  if (value.length > CONFIG.MAX_FILENAME_LENGTH) {
-    console.log(
-      `\n\u{1F7E1} Category must be less than ${CONFIG.MAX_FILENAME_LENGTH} characters\n`
-    );
-    return false;
-  }
+export const createCategory = async () => {
+  const value = await input({
+    message: "Enter the name of the category",
+  });
+
+  const isValid = validateInput(value);
+
+  if (!isValid) return false;
+
   const prettyURL = makePrettyURL(value);
-  const folderPathDocs = `${PATH.DOCS}/${prettyURL}`;
-  const folderPathAssets = `${PATH.ASSETS}/${prettyURL}`;
+  const folderPathDocs = path.join(PATH.DOCS, prettyURL);
+  const folderPathAssets = path.join(PATH.ASSETS, prettyURL);
 
   if (!createFolder(folderPathDocs)) {
     console.log(
