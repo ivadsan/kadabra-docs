@@ -9,7 +9,7 @@ import { createFolder } from "../utils/createFolder.js";
 
 export const createDocument = async () => {
   console.clear();
-  const categories = await getCategories();
+  let categories = await getCategories();
 
   if (!categories.length) {
     const answer = await confirm({
@@ -18,7 +18,12 @@ export const createDocument = async () => {
     });
 
     if (answer) {
-      await createCategory();
+      const categoryHasCreated = await createCategory();
+      if (categoryHasCreated) {
+        categories = await getCategories();
+      } else {
+        return false;
+      }
     } else {
       console.log(`\n\u{1F7E1} Returning to menu\n`);
       return false;
