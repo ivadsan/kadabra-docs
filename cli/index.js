@@ -1,6 +1,7 @@
-import { input, rawlist } from "@inquirer/prompts";
+import { rawlist } from "@inquirer/prompts";
 import { createCategory, listCategories } from "./category.js";
 import { createDocument } from "./document.js";
+import { showHelp } from "./help.js";
 
 export const initCli = async () => {
   let exit = false;
@@ -31,17 +32,17 @@ export const initCli = async () => {
         await createDocument();
         break;
 
-      // case "help":
-      //   console.log("Showing help...");
-      //   break;
+      case "help":
+        showHelp();
+        break;
 
       case "exit":
         exit = true;
-        console.log("Exiting the CLI. Goodbye!");
+        console.log("\nExiting the CLI. Goodbye!\n");
         break;
 
       default:
-        console.log("Invalid option. Try again.");
+        console.log("\nInvalid option. Try again.\n");
     }
   }
 };
