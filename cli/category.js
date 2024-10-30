@@ -1,5 +1,5 @@
 import fs from "fs";
-import path from "path";
+import path, { join } from "path";
 import { confirm, input } from "@inquirer/prompts";
 
 import { PATH, FILE } from "../constants/app.js";
@@ -135,5 +135,47 @@ export const listCategories = async () => {
     );
   } else {
     await paginateCategories(categories);
+  }
+};
+
+export const getCategoryDocs = (categoryKey) => {
+  const categoryPath = path.join(PATH.DOCS, categoryKey);
+  try {
+    const documents = fs
+      .readdirSync(categoryPath, "utf-8")
+      .filter((document) => document != FILE.DEFAULT_FILENAME);
+    if (!documents.length) return [];
+
+    const listOfDocs = documents
+      .map((document) => {
+        try {
+          const docPath = path.join(
+            categoryPath,
+            document,
+            FILE.DEFAULT_FILENAME
+          );
+
+          if (!validateFolder(docPath)) return null;
+
+          const docFile = fs.readFileSync(docPath, "utf-8");
+          const fileFirstLine = docFile.split("\n")[0];
+          const documentName = fileFirstLine.startsWith("#")
+            ? fileFirstLine.split("#")[1].trim()
+            : "Untitled";
+
+          return {
+            path: document,
+            documentName,
+          };
+        } catch (err) {
+          console.error(err);
+          return null;
+        }
+      })
+      .filter(Boolean);
+
+    return listOfDocs;
+  } catch (err) {
+    console.error(err);
   }
 };
