@@ -56,6 +56,13 @@ export const getCategories = () => {
   try {
     const categories = fs.readdirSync(PATH.DOCS);
     if (!categories.length) return [];
+
+    categories.sort((a, b) => {
+      if (a.value < b.value) return -1;
+      if (a.value > b.value) return 1;
+      return 0;
+    });
+
     const categoriesList = categories
       .map((category) => {
         const categoryPath = path.join(
@@ -75,12 +82,6 @@ export const getCategories = () => {
         };
       })
       .filter(Boolean);
-
-    categories.sort((a, b) => {
-      if (a.value < b.value) return -1;
-      if (a.value > b.value) return 1;
-      return 0;
-    });
 
     return categoriesList;
   } catch (err) {
@@ -129,6 +130,7 @@ const paginateCategories = async (categories, pageSize = CONFIG.PAGE_SIZE) => {
 
 export const listCategories = async () => {
   const categories = getCategories();
+
   if (!categories.length) {
     console.log(
       `\n\u{1F7E1} No categories found. Please create a category to start.\n`
