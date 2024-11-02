@@ -4,6 +4,7 @@ import { validateFolder } from "../utils/validateFolder.js";
 import { deleteRecursive } from "../utils/deleteRecursive.js";
 import { createFolder } from "../utils/createFolder.js";
 import { createFile } from "../utils/createFile.js";
+import path from "path";
 
 const mainToc = () => {
   const categories = getCategories();
@@ -24,6 +25,11 @@ const mainToc = () => {
 
   const jsonData = JSON.stringify(toc, null, 2);
   createFile(PATH.DIRECTORY, FILE.DIR_MAIN, jsonData);
+
+  toc.map((category) => {
+    const categoryPath = path.join(PATH.DIRECTORY, category.path);
+    createFolder(categoryPath);
+  });
 };
 
 mainToc();
