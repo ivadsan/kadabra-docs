@@ -28,7 +28,17 @@ const mainToc = () => {
 
   toc.map((category) => {
     const categoryPath = path.join(PATH.DIRECTORY, category.path);
-    createFolder(categoryPath);
+    const { documents } = category;
+    if (createFolder(categoryPath)) {
+      if (documents.length > 0) {
+        documents.map((document) => {
+          const documentPath = path.join(categoryPath, document.path);
+          if (createFolder(documentPath)) {
+            //
+          }
+        });
+      }
+    }
   });
 };
 
