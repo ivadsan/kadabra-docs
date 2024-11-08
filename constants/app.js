@@ -16,4 +16,5 @@ export const PATH = {
 export const FILE = {
   DEFAULT_FILENAME: "README.md",
   DIR_MAIN: "main.json",
+  TOC: "toc.json",
 };
