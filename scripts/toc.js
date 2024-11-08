@@ -6,10 +6,8 @@ import { createFolder } from "../utils/createFolder.js";
 import { createFile } from "../utils/createFile.js";
 import path from "path";
 
-const mainToc = () => {
-  const categories = getCategories();
-  if (!categories.length) return [];
-  const toc = categories.map((category) => {
+const generateCategoryToc = (categories) => {
+  return categories.map((category) => {
     const documents = getCategoryDocs(category.key);
     return {
       path: category.key,
@@ -17,6 +15,13 @@ const mainToc = () => {
       documents,
     };
   });
+};
+
+const buildDirectoryTree = () => {
+  const categories = getCategories();
+  if (!categories.length) return [];
+
+  const toc = generateCategoryToc(categories);
 
   if (validateFolder(PATH.DIRECTORY)) {
     deleteRecursive(PATH.DIRECTORY);
@@ -42,4 +47,4 @@ const mainToc = () => {
   });
 };
 
-mainToc();
+buildDirectoryTree();
